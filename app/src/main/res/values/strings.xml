@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Wetter Daten</string>
+    <string name="_8_c">8°C</string>
+    <string name="temperature">Temperature</string>
+    <string name="humidity">Humidity</string>
+    <string name="_75">75%</string>
+    <string name="weather_data">Weather Data</string>
+    <string name="location">Location</string>
+    <string name="homburg">Homburg</string>
+    <string name="_16_00">16:00</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
