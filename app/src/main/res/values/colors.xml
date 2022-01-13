@@ -18,6 +18,16 @@
     <color name="darkGreen">#414d0b</color>
     <color name="lightGreen">#727a17</color>
     <color name="navi">#283c86</color>
-    <color name="Green">#45a247</color>
+    <color name="darkNavi">#243B55</color>
+    <color name="lightBlack">#141E30</color>
+    <color name="blue">#0072ff</color>
+    <color name="lightBlue">#00c6ff</color>
+    <color name="violetBlue">#4776E6</color>
+    <color name="violet">#8E54E9</color>
+    <color name="Green">#119928</color>
+    <color name="iphoneGreen">#99f2c8</color>
+    <color name="GGreen">#1f4037</color>
+    <color name="Red">#DA4453</color>
+    <color name="darkViolet">#89216B</color>
     <color name="SplashScreenFontColor">#000000</color>
 </resources>

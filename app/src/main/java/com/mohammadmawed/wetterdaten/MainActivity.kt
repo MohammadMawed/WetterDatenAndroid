@@ -41,6 +41,8 @@ class MainActivity : AppCompatActivity() {
         ///Change the data from here
         linearGauge.data(SingleValueDataSet(arrayOf(8)))
 
+        linearGauge.background(R.drawable.shapedark.toString())
+
         linearGauge.tooltip()
             .useHtml(true)
             .format(
