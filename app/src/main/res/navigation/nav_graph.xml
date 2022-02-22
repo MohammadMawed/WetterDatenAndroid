@@ -9,7 +9,11 @@
         android:id="@+id/wholeDataFragment"
         android:name="com.mohammadmawed.wetterdaten.ui.WholeDataFragment"
         android:label="fragment_whole_data"
-        tools:layout="@layout/fragment_whole_data" />
+        tools:layout="@layout/fragment_whole_data" >
+        <action
+            android:id="@+id/action_wholeDataFragment_to_weeklyDataFragment"
+            app:destination="@id/weeklyDataFragment" />
+    </fragment>
     <fragment
         android:id="@+id/splashFragment"
         android:name="com.mohammadmawed.wetterdaten.ui.SplashFragment"
@@ -17,6 +21,16 @@
         tools:layout="@layout/fragment_splash" >
         <action
             android:id="@+id/action_splashFragment_to_wholeDataFragment"
+            app:destination="@id/wholeDataFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/weeklyDataFragment"
+        android:name="com.mohammadmawed.wetterdaten.ui.WeeklyDataFragment"
+        android:label="fragment_weekly_data"
+        tools:layout="@layout/fragment_weekly_data" >
+        <action
+            android:id="@+id/action_weeklyDataFragment_to_wholeDataFragment"
             app:destination="@id/wholeDataFragment" />
     </fragment>
 </navigation>

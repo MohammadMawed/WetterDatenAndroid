@@ -102,7 +102,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/_75"
+                android:text="@string/_25"
                 android:textColor="#FFFFFF"
                 android:textSize="33sp" />
 
@@ -140,7 +140,7 @@
             android:orientation="vertical">
 
             <com.anychart.AnyChartView
-                android:id="@+id/line_chart_view"
+                android:id="@+id/line_chart_view1"
                 android:layout_margin="5dp"
                 android:layout_width="400dp"
                 android:layout_height="500dp"

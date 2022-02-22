@@ -1,75 +1,45 @@
 package com.mohammadmawed.wetterdaten.ui
 
 import android.app.Application
-import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.google.firebase.database.*
+import com.mohammadmawed.wetterdaten.data.AverageDataModelClass
 import com.mohammadmawed.wetterdaten.data.OnDataReceiveCallback
+import com.mohammadmawed.wetterdaten.data.WeatherDataFirebaseRepo
 import com.mohammadmawed.wetterdaten.data.WeatherDataModelClass
-import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 class WeatherDataViewModel(application: Application) : AndroidViewModel(application) {
 
+    private val repo = WeatherDataFirebaseRepo()
+
     private var _weatherDataMutableLiveData: MutableLiveData<ArrayList<WeatherDataModelClass>> =
         MutableLiveData()
+    private var _hourDataMutableLiveData: MutableLiveData<ArrayList<AverageDataModelClass>> =
+        MutableLiveData()
+    private var _errorFetchingDataMutableLiveData: MutableLiveData<String> = MutableLiveData()
+    private var _errorFetchingHourDataMutableLiveData: MutableLiveData<String> = MutableLiveData()
 
-    private val databaseReference: DatabaseReference =
-        FirebaseDatabase.getInstance().reference.child("data")
+    val weatherDataLiveData: LiveData<ArrayList<WeatherDataModelClass>> =
+        _weatherDataMutableLiveData
+    val hourDataLiveData: LiveData<ArrayList<AverageDataModelClass>> =
+        _hourDataMutableLiveData
 
-    var arrayListMainUI: ArrayList<WeatherDataModelClass> = ArrayList()
+    val errorFetchingDataLiveData: MutableLiveData<String> = _errorFetchingDataMutableLiveData
+    val errorFetchingHourDataLiveData: MutableLiveData<String> = _errorFetchingHourDataMutableLiveData
 
 
-
-    val weatherDataLiveData: LiveData<ArrayList<WeatherDataModelClass>>
-        get() = _weatherDataMutableLiveData
 
     fun loadWeatherData(callback: OnDataReceiveCallback) {
-        databaseReference.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                for (data in snapshot.children) {
-
-                    val model = data.getValue(WeatherDataModelClass::class.java)
-
-                    val humidity: String = model?.humidity.toString()
-                    val temperature: String = model?.temperature.toString()
-                    val time: String = model?.time.toString()
-
-
-                    arrayListMainUI.add(model as WeatherDataModelClass)
-
-                    //Adding callback method to enable the realtime UI update
-                    callback.onDataReceived(time, temperature, humidity)
-
-                    _weatherDataMutableLiveData.postValue(arrayListMainUI)
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-        })
+        repo.loadData(_weatherDataMutableLiveData, callback, _errorFetchingDataMutableLiveData)
+    }
+    fun loadHourData(){
+        repo.loadHourData(_hourDataMutableLiveData, _errorFetchingHourDataMutableLiveData)
     }
 
-
-    fun uploadFile(humidity: Int, temperature: Int, time: String)  {
-        val calendar: Calendar = Calendar.getInstance()
-        val timeInMillis: Long = calendar.timeInMillis
-        val hashMap = HashMap<String, String>()
-
-        hashMap["time"] = time
-        hashMap["temperature"] = temperature.toString()
-        hashMap["humidity"] = humidity.toString()
-        databaseReference.child("data/").setValue(hashMap)
-            .addOnSuccessListener {
-
-            }
-
+    fun uploadFile(humidity: Int, temperature: Int) {
+        repo.uploadFile(humidity, temperature)
     }
 
 }

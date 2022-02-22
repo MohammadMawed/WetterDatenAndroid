@@ -1,33 +1,59 @@
-package com.mohammadmawed.wetterdaten
+package com.mohammadmawed.wetterdaten.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.activity.addCallback
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.anychart.APIlib
-import com.anychart.AnyChartView
-
-import com.anychart.data.Mapping
-
-import com.anychart.chart.common.dataentry.DataEntry
-
 import com.anychart.AnyChart
+import com.anychart.AnyChartView
+import com.anychart.chart.common.dataentry.DataEntry
 import com.anychart.chart.common.dataentry.ValueDataEntry
 import com.anychart.charts.Cartesian
 import com.anychart.core.cartesian.series.Line
+import com.anychart.data.Mapping
 import com.anychart.data.Set
+import com.anychart.enums.Anchor
+import com.anychart.enums.MarkerType
+import com.anychart.enums.TooltipPositionMode
 import com.anychart.graphics.vector.Stroke
-import com.anychart.enums.*
+import com.mohammadmawed.wetterdaten.MainActivity2
+import com.mohammadmawed.wetterdaten.R
+import com.mohammadmawed.wetterdaten.data.AverageDataModelClass
 
-class MainActivity2 : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main2)
+class WeeklyDataFragment : Fragment() {
 
-        /*val anyChartView: AnyChartView = findViewById(R.id.line_chart_view1)
+    private lateinit var viewModel: WeatherDataViewModel
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        val view =  inflater.inflate(R.layout.fragment_weekly_data, container, false)
+
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            findNavController().navigate(R.id.action_weeklyDataFragment_to_wholeDataFragment)
+            // Handle the back button event
+        }
+        viewModel = ViewModelProvider(requireActivity())[WeatherDataViewModel::class.java]
+        viewModel.loadHourData()
+
+        val anyChartView: AnyChartView = view.findViewById(R.id.line_chart_view)
         APIlib.getInstance().setActiveAnyChartView(anyChartView)
 
-        anyChartView.setProgressBar(findViewById(R.id.progressBar));
+        anyChartView.setProgressBar(view.findViewById(R.id.progress_bar))
 
         val cartesian: Cartesian = AnyChart.line()
+
+        viewModel.hourDataLiveData.observe(viewLifecycleOwner){ array ->
+
+        }
 
 
         cartesian.animation(true)
@@ -127,9 +153,22 @@ class MainActivity2 : AppCompatActivity() {
         //APIlib.getInstance().setActiveAnyChartView(anyChartView);
 
 
-        anyChartView.setChart(cartesian)?*/
+        anyChartView.setChart(cartesian)
 
+        return view
     }
 
+    private class CustomDataEntry internal constructor(
+        x: String?,
+        value: Number?,
+        value2: Number?,
+        value3: Number?
+    ) :
+        ValueDataEntry(x, value) {
+        init {
+            setValue("value2", value2)
+            setValue("value3", value3)
+        }
+    }
 
 }
