@@ -6,8 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.addCallback
-import androidx.lifecycle.MutableLiveData
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.anychart.APIlib
@@ -23,14 +25,18 @@ import com.anychart.enums.Anchor
 import com.anychart.enums.MarkerType
 import com.anychart.enums.TooltipPositionMode
 import com.anychart.graphics.vector.Stroke
-import com.mohammadmawed.wetterdaten.MainActivity2
+import com.google.android.material.snackbar.Snackbar
 import com.mohammadmawed.wetterdaten.R
 import com.mohammadmawed.wetterdaten.data.AverageDataModelClass
-import java.lang.reflect.Array
+import com.mohammadmawed.wetterdaten.data.ConnectionLiveData
 
 class WeeklyDataFragment : Fragment() {
 
+    private lateinit var connectionImageView: ImageView
+    private lateinit var dateOfDataTextview: TextView
+    private lateinit var mainLayout: ConstraintLayout
     private lateinit var viewModel: WeatherDataViewModel
+    private lateinit var connectionLiveData: ConnectionLiveData
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,12 +45,17 @@ class WeeklyDataFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_weekly_data, container, false)
 
+        connectionImageView = view.findViewById(R.id.connectionWeeklyImageView)
+        dateOfDataTextview = view.findViewById(R.id.dateOfDataTextview)
+        mainLayout = view.findViewById(R.id.mainLayout1)
+
         requireActivity().onBackPressedDispatcher.addCallback(this) {
             findNavController().navigate(R.id.action_weeklyDataFragment_to_wholeDataFragment)
             // Handle the back button event
         }
         viewModel = ViewModelProvider(requireActivity())[WeatherDataViewModel::class.java]
         viewModel.loadHourData()
+        connectionLiveData = ConnectionLiveData(requireContext())
 
         val anyChartView: AnyChartView = view.findViewById(R.id.line_chart_view)
         APIlib.getInstance().setActiveAnyChartView(anyChartView)
@@ -64,7 +75,7 @@ class WeeklyDataFragment : Fragment() {
             }*/
 
 
-            var data1: AverageDataModelClass = AverageDataModelClass()
+            /*var data1: AverageDataModelClass = AverageDataModelClass()
             var data2: AverageDataModelClass = AverageDataModelClass()
             var data3: AverageDataModelClass = AverageDataModelClass()
             var data4: AverageDataModelClass = AverageDataModelClass()
@@ -113,7 +124,7 @@ class WeeklyDataFragment : Fragment() {
             data21 = array[21]!!
             data22 = array[22]!!
             data23 = array[23]!!
-            data24 = array[24]!!
+            data24 = array[24]!!*/
 
 
             Log.d("Ss", array.values.toString())
@@ -144,7 +155,7 @@ class WeeklyDataFragment : Fragment() {
                 seriesData.add(CustomDataEntry(data111.time, data111.temperature?.toFloat(), data111.humidity?.toFloat()))
 
             }
-
+            dateOfDataTextview.text = data111.date
             /*seriesData.add(CustomDataEntry("00.00", data1.temperature?.toFloat(), data1.humidity?.toFloat()))
             seriesData.add(CustomDataEntry("01.00", data2.temperature?.toFloat(), data2.humidity?.toFloat()))
             seriesData.add(CustomDataEntry("03.00",  data3.temperature?.toFloat(), data3.humidity?.toFloat()))
@@ -203,6 +214,7 @@ class WeeklyDataFragment : Fragment() {
 
             cartesian.legend().enabled(true)
             cartesian.legend().fontSize(13.0)
+            cartesian.legend().padding(0.0, 0.0, 10.0, 0.0)
 
             /*cartesian1.title("Second chart");
             APIlib.getInstance().setActiveAnyChartView(anyChartView);
@@ -216,11 +228,19 @@ class WeeklyDataFragment : Fragment() {
 
         }
 
-
-
+        connectionLiveData.observe(viewLifecycleOwner) { isNetworkAvailable ->
+            if (isNetworkAvailable) {
+                connectionImageView.setImageResource(R.drawable.ic_outline_network_wifi_2_bar_24)
+            } else if (!isNetworkAvailable) {
+                connectionImageView.setImageResource(R.drawable.ic_outline_signal_wifi_bad_24)
+                Snackbar.make(mainLayout, "You are offline", Snackbar.LENGTH_LONG).show()
+            }
+        }
 
         return view
     }
+
+
 
     private class CustomDataEntry internal constructor(
         x: String?,

@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/shape6"
+    android:id="@+id/mainLayout1"
     tools:context=".ui.WeeklyDataFragment">
 
     <RelativeLayout
@@ -18,9 +19,10 @@
         android:padding="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.466"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.106">
+        app:layout_constraintVertical_bias="0.088">
 
         <TextView
             android:id="@+id/textView4"
@@ -108,10 +110,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
-            android:background="@drawable/shapewhite"
+            android:background="@drawable/shapedark"
             android:gravity="center"
             android:orientation="vertical"
             android:padding="10dp">
+
+            <TextView
+                android:id="@+id/dateOfDataTextview"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="#fff"
+                Tool:text="2022-02-20" />
 
             <com.anychart.AnyChartView
                 android:id="@+id/line_chart_view"
@@ -128,6 +139,8 @@
 
             </com.anychart.AnyChartView>
 
+
+
             <com.google.android.material.progressindicator.LinearProgressIndicator
                 android:id="@+id/progress_bar"
                 android:visibility="gone"
@@ -143,11 +156,12 @@
         android:id="@+id/tempRelativeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_margin="15dp"
         android:background="@drawable/shape8"
         android:padding="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0">
@@ -180,10 +194,10 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="7dp"
             android:layout_toEndOf="@+id/humidityImageView"
-            Tool:text="@string/_25"
             android:textColor="#fff"
             android:textSize="30sp"
-            android:textStyle="italic|bold" />
+            android:textStyle="italic|bold"
+            Tool:text="@string/_25" />
 
         <ImageView
             android:id="@+id/timeImageView"
@@ -216,10 +230,10 @@
             android:layout_marginTop="7dp"
             android:layout_marginEnd="5dp"
             android:layout_toEndOf="@+id/timeImageView"
-            Tool:text="@string/_8_c"
             android:textColor="#fff"
             android:textSize="30sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            Tool:text="@string/_8_c" />
 
     </RelativeLayout>
 

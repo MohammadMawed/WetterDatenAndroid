@@ -30,11 +30,11 @@ class SplashFragment : Fragment() {
             animationView = view.findViewById(R.id.splash)
 
 
-            animationView.animate().setDuration(2000).startDelay = 500
+            animationView.animate().setDuration(1000).startDelay = 500
 
             findNavController().navigate(R.id.action_splashFragment_to_wholeDataFragment)
 
-        }, 5000)
+        }, 3000)
 
         return view
     }
